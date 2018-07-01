@@ -1,5 +1,7 @@
 # Salien Game Idler
 
+![alt text](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler.png)
+
 [Link to Saliens Game](https://steamcommunity.com/saliengame/play)
 
 ### Intro
