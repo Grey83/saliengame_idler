@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name		Ensingm2 Salien Game Idler
 // @namespace	https://github.com/ensingm2/saliengame_idler
-// @updateURL	https://github.com/Grey83/saliengame_idler/blob/master/idle.js
 // @version		0.0.1_ru (01.07.2018)
 // @author		ensingm2
 // @match		*://steamcommunity.com/saliengame/play
@@ -32,9 +31,7 @@ var last_update_grid = undefined; // Last time we updated the grid (to avoid too
 var check_game_state = undefined; // Check the state of the game script and unlock it if needed (setInterval)
 var auto_switch_planet = {
 	"active": true, // Automatically switch to the best planet available (true : yes, false : no)
-	"current_difficulty": undefined,
-	"rounds_before_check": 1, // We start a planets check in this amount of rounds
-	"current_round": 0
+	"current_difficulty": undefined
 };
 var gui; //local gui variable
 var start_button = false; // is start button already pressed?
@@ -796,12 +793,11 @@ function CheckSwitchBetterPlanet(difficulty_call) {
 	if (difficulty_call === undefined)
 		difficulty_call = false;
 
-	var best_planet = GetBestPlanet();
-	
 	var now = new Date().getTime();
 	var lastGameStart = (current_game_start === undefined) ? now : current_game_start;
 	var timeDiff = (now - lastGameStart) / 1000;
 
+	var best_planet = GetBestPlanet();
 	if (best_planet !== undefined && best_planet !== null && best_planet != current_planet_id) {
 		console.log("Planet #" + best_planet + " has higher XP potential. Switching to it. Bye planet #" + current_planet_id);
 		INJECT_switch_planet(best_planet, function() {
