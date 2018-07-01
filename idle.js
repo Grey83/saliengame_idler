@@ -1,7 +1,7 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name		Ensingm2 Salien Game Idler
 // @namespace	https://github.com/ensingm2/saliengame_idler
-// @version		0.0.1
+// @version		0.0.1_ru (01.07.2018)
 // @author		ensingm2
 // @match		*://steamcommunity.com/saliengame/play
 // @match		*://steamcommunity.com/saliengame/play/
@@ -63,16 +63,16 @@ class BotGUI {
 		}
 
 		var $statusWindow = $J([
-			'<div id="salienbot_gui" style="background: #191919; z-index: 1; border: 3px solid #83d674; padding: 20px; margin: 15px; width: 300px; transform: translate(0, 0);">',
+			'<div id="salienbot_gui" style="background: #191919; z-index: 1; border: 3px solid #83d674; padding: 10px; margin: 5px; width: 300px; transform: translate(0, 0);">',
 				'<h1><a href="https://github.com/ensingm2/saliengame_idler/">Salien Game Idler</a></h1>',
-				'<p style="margin-top: -.8em; font-size: .75em"><span id="salienbot_status"></span></p>', // Running or stopped
-				'<p><b>Task:</b> <span id="salienbot_task">Initializing</span></p>', // Current task
-				`<p><b>Target Zone:</b> <span id="salienbot_zone">None</span></p>`,
-				`<p style="display: none;" id="salienbot_zone_difficulty_div"><b>Zone Difficulty:</b> <span id="salienbot_zone_difficulty"></span> (<span id="salienbot_zone_score"></span>xp/round)</p>`,
-				'<p><b>Level:</b> <span id="salienbot_level">' + this.state.level + '</span> &nbsp;&nbsp;&nbsp;&nbsp; <b>EXP:</b> <span id="salienbot_exp">' + this.state.exp + " / " + this.state.next_level_exp + '</span></p>',
-				'<p><b>Lvl Up In:</b> <span id="salienbot_esttimlvl"></span></p>',
-				'<p><input id="planetSwitchCheckbox" type="checkbox"/> Automatic Planet Switching</p>',
-				'<p><input id="animationsCheckbox" type="checkbox"/> Hide Game (Improves Performance)</p>',
+				'<p style="margin-top: -.8em"><span id="salienbot_status"></span></p>', // Running or stopped
+				'<p><b>Задача:</b> <span id="salienbot_task">Инициализация</span></p>', // Current task
+				`<p><b>Зона:</b> <span id="salienbot_zone">—</span></p>`,
+				`<p style="display: none;" id="salienbot_zone_difficulty_div"><b>Сложность:</b> <span id="salienbot_zone_difficulty"></span> (<span id="salienbot_zone_score"></span>XP/раунд)</p>`,
+				'<p><b>Уровень:</b> <span id="salienbot_level">' + this.state.level + '</span> &nbsp;&nbsp;&nbsp;&nbsp; <b>Опыт:</b> <span id="salienbot_exp">' + this.state.exp + " / " + this.state.next_level_exp + '</span></p>',
+				'<p><b>До ЛВЛапа:</b> <span id="salienbot_estxp">' + (this.state.next_level_exp - this.state.exp) + '</span>XP (<span id="salienbot_esttimlvl"></span>)</p>',
+				'<p><input id="planetSwitchCheckbox" type="checkbox"/> Автоматическая смена планеты</p>',
+				'<p><input id="animationsCheckbox" type="checkbox"/> Скрыть игру (уменьшает нагрузку)</p>',
 			'</div>'
 		].join(''))
 
@@ -86,7 +86,7 @@ class BotGUI {
 	}
 
 	updateStatus(running) {
-		const statusTxt = running ? '<span style="color: green;">✓ Running</span>' : '<span style="color: red;">✗ Stopped</span>';
+		const statusTxt = running ? '<span style="color: lime;">✓ Работает</span>' : '<span style="color: red;">✗ Остановлен</span>';
 
 		$J('#salienbot_status').html(statusTxt);
 	}
@@ -99,6 +99,9 @@ class BotGUI {
 
 	updateExp(exp) {
 		document.getElementById('salienbot_exp').innerText = exp;
+	}
+	updateEstExp(exp) {
+		document.getElementById('salienbot_estxp').innerText = exp;
 	}
 
 	updateLevel(level) {
@@ -117,13 +120,13 @@ class BotGUI {
 
 		var timeTxt = "";
 		if(days > 0)
-			timeTxt += days + "d ";
+			timeTxt += days + "д ";
 		if(hours > 0 || timeTxt.length > 0)
-			timeTxt += hours + "h ";
+			timeTxt += hours + "ч ";
 		if(minutes > 0 || timeTxt.length > 0)
-			timeTxt += minutes + "m ";
+			timeTxt += minutes + "м ";
 
-		timeTxt += seconds + "s";
+		timeTxt += seconds + "с";
 
 		document.getElementById('salienbot_esttimlvl').innerText = timeTxt;
 	}
@@ -133,7 +136,7 @@ class BotGUI {
 		if(is_boss_battle === undefined)
 			is_boss_battle = false;
 		if(progress !== undefined)
-			printString += " (" + (progress * 100).toFixed(2) + "% Complete)"
+			printString += " (" + (progress * 100).toFixed(2) + "% выполнено)"
 		if(progress === undefined) {
 			$J("#salienbot_zone_difficulty_div").hide();
 			difficulty = "";
@@ -202,12 +205,12 @@ function calculateTimeToNextLevel() {
 function ajaxErrorHandling(ajaxObj, params, messagesArray) {
 	ajaxObj.tryCount++;
 	if (ajaxObj.tryCount <= ajaxObj.retryLimit) {
-		var currentTask = "Retrying in 5s to " + messagesArray[0] + " (Retry #" + ajaxObj.tryCount + "). Error: " + params.xhr.status + ": " + params.thrownError;
+		var currentTask = "Retrying in 5s to " + messagesArray[0] + " (Попытка #" + ajaxObj.tryCount + "). Ошибка: " + params.xhr.status + ": " + params.thrownError;
 		gui.updateTask(currentTask);
 		setTimeout(function() { $J.ajax(ajaxObj); }, 5000);
 	}
 	else {
-		var currentTask = "Error " + messagesArray[1] + ": " + params.xhr.status + ": " + params.thrownError + " (Max retries reached).";
+		var currentTask = "Ошибка " + messagesArray[1] + ": " + params.xhr.status + ": " + params.thrownError + " (лимит попыток исчерпан).";
 		gui.updateTask(currentTask);
 	}
 }
@@ -261,7 +264,7 @@ var INJECT_start_round = function(zone, access_token, attempt_no, is_boss_battle
 
 	// Leave the game if we're already in one.
 	if(current_game_id !== undefined) {
-		gui.updateTask("Previous game detected. Ending it.", true);
+		gui.updateTask("Обнаружена предыдущая игра. Завершаем её.", true);
 		INJECT_leave_round();
 	}
 
@@ -292,13 +295,13 @@ var INJECT_start_round = function(zone, access_token, attempt_no, is_boss_battle
 					if (errorId == 11) {
 						var gameIdStuck = jqXHR.getResponseHeader('x-error_message').match(/\d+/)[0];
 
-						console.log("Game has ended. Leaving it.");
+						console.log("Игра окончена. Покидаем её.");
 						current_game_id = gameIdStuck;
 						INJECT_leave_round();
 					} else {
 						console.log("Error getting zone response (on start):",data);
 					}
-					gui.updateTask("Waiting 5s and re-sending join attempt (Attempt #" + (attempt_no + 1) + ").");
+					gui.updateTask("Ожидаем 5с до следующей попытки перезайти (Попытка #" + (attempt_no + 1) + ").");
 					clearTimeout(current_timeout);
 					current_timeout = setTimeout(function() { INJECT_start_round(zone, access_token, attempt_no+1, current_game_is_boss); }, 5000);
 				}
@@ -366,13 +369,13 @@ var INJECT_report_boss_damage = function() {
 					if (player.hp > 0) {
 						if ((parseInt(gPlayerInfo.score) + parseInt(player.xp_earned)) >= 26390000) {
 							avoid_boss = true;
-							gui.updateTask("You're very close to reach level 25. Exiting boss fight to prevent you to not get level-based items.");
+							gui.updateTask("Вы близки к получению 25лвла. Exiting boss fight to prevent you to not get level-based items.");
 							end_game();
 						} else {
-							gui.updateTask("In boss battle. Boss HP left: " + results.response.boss_status.boss_hp + ". EXP earned: " + player.xp_earned + ". HP left: " + player.hp);
+							gui.updateTask("Битва с боссом. ХП босса: " + results.response.boss_status.boss_hp + ". Опыт: " + player.xp_earned + ". ХП: " + player.hp);
 						}
 					} else {
-						gui.updateTask("You died, ending boss fight. Boss HP left: " + results.response.boss_status.boss_hp + ". EXP earned: " + player.xp_earned);
+						gui.updateTask("Вы погибли, заканчиваем битву с боссом. ХП босса: " + results.response.boss_status.boss_hp + ". Опыт: " + player.xp_earned);
 						end_game();
 					}
 					if (player.time_last_heal !== undefined)
@@ -389,7 +392,7 @@ var INJECT_report_boss_damage = function() {
 			boss_options.error_count++;
 	}
 	function end_game() {
-		gui.updateTask("Boss battle finished. Searching a new planet / zone.");
+		gui.updateTask("Битва с боссом завершена. Ищем новую планету / зону.");
 		clearInterval(boss_options.report_interval);
 		boss_options.report_interval = undefined;
 		boss_options.last_heal = undefined;
@@ -421,7 +424,7 @@ var INJECT_wait_for_end = function() {
 	var time_remaining = Math.round(time_remaining_ms/1000);
 
 	// Update GUI
-	gui.updateTask("Waiting " + Math.max(time_remaining, 0) + "s for round to end", false);
+	gui.updateTask("Ожидаем " + Math.max(time_remaining, 0) + "с до окончания раунда", false);
 	gui.updateStatus(true);
 	if (target_zone != -1)
 		gui.updateEstimatedTime(calculateTimeToNextLevel());
@@ -453,7 +456,7 @@ var INJECT_end_round = function(attempt_no) {
 	var score = get_max_score();
 	
 	// Update gui
-	gui.updateTask("Ending Round");
+	gui.updateTask("Завершаем раунд");
 
 	// Post our "Yay we beat the level" call
 	$J.ajax({
@@ -475,7 +478,7 @@ var INJECT_end_round = function(attempt_no) {
 				}
 				else {
 					console.log("Error getting zone response (on end):",data);
-					gui.updateTask("Waiting 5s and re-sending score (Attempt #" + (attempt_no + 1) + ").");
+					gui.updateTask("Ожидаем 5с и повторно отправляем счёт (Попытка #" + (attempt_no + 1) + ").");
 					clearTimeout(current_timeout);
 					current_timeout = setTimeout(function() { INJECT_end_round(attempt_no+1); }, 5000);
 				}
@@ -492,7 +495,8 @@ var INJECT_end_round = function(attempt_no) {
 				gui.updateLevel(data.response.new_level);
 				gui.updateExp(data.response.new_score + " / " + data.response.next_level_score);
 				gui.updateEstimatedTime(calculateTimeToNextLevel());
-				gui.updateZone("None");
+				gui.updateEstExp((data.response.next_level_score - data.response.new_score));
+				gui.updateZone("—");
 				
 				// Avoid bosses if we're near level 25
 				avoid_boss = (gPlayerInfo.score >= 26390000 && gPlayerInfo.score < 26400000);
@@ -550,7 +554,7 @@ var INJECT_leave_round = function() {
 	current_game_id = undefined;
 
 	// Update the GUI
-	gui.updateTask("Left Zone #" + target_zone);
+	gui.updateTask("Покидаем зону #" + target_zone);
 	gui.updateStatus(false);
 
 	target_zone = -1;
@@ -586,7 +590,7 @@ var INJECT_update_grid = function(error_handling) {
 			return;
 	}
 
-	gui.updateTask('Updating grid', true);
+	gui.updateTask('Обновление сетки', true);
 
 	// GET to the endpoint
 	$J.ajax({
@@ -640,7 +644,7 @@ function GetBestZone() {
 	var bestZone;
 	var highestDifficulty = -1;
 
-	gui.updateTask('Getting best zone');
+	gui.updateTask('Ищем лучшую зону');
 
 	for (var idx = 0; idx < window.gGame.m_State.m_Grid.m_Tiles.length; idx++) {
 		var zone = window.gGame.m_State.m_Grid.m_Tiles[idx].Info;
@@ -679,7 +683,7 @@ function GetBestPlanet() {
 	var numberErrors = 0;
 	var bossSpawned = false;
 	
-	gui.updateStatus('Getting best planet');
+	gui.updateStatus('Ищем лучшую планету');
 	
 	// GET to the endpoint
 	$J.ajax({
@@ -828,7 +832,7 @@ var INJECT_switch_planet = function(planet_id, callback) {
 	if(!(gGame.m_State instanceof CBattleSelectionState))
 		return;
 
-	gui.updateTask("Attempting to move to Planet #" + planet_id);
+	gui.updateTask("Пытаемся переместиться на планету #" + planet_id);
 
 	// Leave our current round if we haven't.
 	INJECT_leave_round();
@@ -856,7 +860,7 @@ var INJECT_switch_planet = function(planet_id, callback) {
 			if (valid_planets[i].id == planet_id)
 					found = true;
 		if(!found) {
-			gui.updateTask("Attempted to switch to an invalid planet. Please choose a new one.");
+			gui.updateTask("Попытка переключиться на недействительную планету. Выберите следующую.");
 			gui.updateStatus(false);
 			return;
 		}
@@ -867,7 +871,7 @@ var INJECT_switch_planet = function(planet_id, callback) {
 				wait_for_state_load();
 			},
 			function ( response ) {
-				ShowAlertDialog( 'Join Planet Error', 'Failed to join planet. Please reload your game or try again shortly.' );
+				ShowAlertDialog( 'Ошибка перемещения на планету', 'Не удалось переместиться на планету. Перезапустите игру или повторите попытку.' );
 			});
 	}
 }
@@ -968,7 +972,7 @@ var INJECT_join_planet = function(planet_id, success_callback, error_callback) {
 var INJECT_init_battle_selection = function() {
 	// Update the GUI
 	gui.updateStatus(true);
-	gui.updateTask("Initializing Battle Selection Menu.");
+	gui.updateTask("Инициализация меню выбора битвы.");
 
 	// Check the game state for hangups occasionally
 	if (check_game_state !== undefined)
@@ -1027,7 +1031,7 @@ var INJECT_init_battle_selection = function() {
 		}
 
 		// Update the GUI
-		gui.updateTask("Attempting manual switch to Zone #" + zoneIdx);
+		gui.updateTask("Попытка ручного переключения на зону #" + zoneIdx);
 		gui.progressbar.parent.removeChild(gui.progressbar);
 
 		// Leave existing round
@@ -1046,7 +1050,7 @@ var INJECT_init_battle_selection = function() {
 
 var INJECT_init_planet_selection = function() {
 	gui.updateStatus(true);
-	gui.updateTask("Initializing Planet Selection Menu.");
+	gui.updateTask("Инициализация меню выбора планеты.");
 
 	// Hook the Join Planet Function
 	gServer.JoinPlanet = function(planet_id, success_callback, error_callback) {
@@ -1055,8 +1059,8 @@ var INJECT_init_planet_selection = function() {
 
 	// Update GUI
 	gui.updateStatus(false);
-	gui.updateTask("At Planet Selection");
-	gui.updateZone("None");
+	gui.updateTask("Выбор планеты");
+	gui.updateZone("—");
 };
 
 var INJECT_init = function() {
