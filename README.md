@@ -1,8 +1,8 @@
 # Salien Game Idler
 
-![alt text](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler.png) ![alt text](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler%202.png)
+![битва с боссом](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler.png) ![обычная битва](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler%202.png)
 
-![alt text](https://store.steampowered.com/favicon.ico) [Link to Saliens Game](https://steamcommunity.com/saliengame/play)
+![Steam store](https://store.steampowered.com/favicon.ico) [Link to Saliens Game](https://steamcommunity.com/saliengame/play)
 
 ### Intro
 Hey everyone, Like all of you, I was interested in "streamlining" the process of the 2018 Steam sale 'Salien' minigame. You may or may not remember me as a contributor/dev in the Steam Monster Minigame autoclicking scene from the 2015 Steam sale. I took a look at this year's game, and noticed it's much more... boring. No interactions between other players mean there are only a few interactions with the server, and they can be easily spoofed, as long as you wait out the timer of the round, and only send the maximum allowed score for a zone. So I figured, why automate the game at all? Much easier to just sit at the menu and just say we beat the level.
