@@ -1,6 +1,6 @@
 # Salien Game Idler
 
-![alt text](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler.png)
+![alt text](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler.png) ![alt text](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler%202.png)
 
 ![alt text](https://store.steampowered.com/favicon.ico) [Link to Saliens Game](https://steamcommunity.com/saliengame/play)
 
