@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name		Ensingm2 Salien Game Idler
 // @namespace	https://github.com/ensingm2/saliengame_idler
+// @updateURL	https://github.com/Grey83/saliengame_idler/blob/master/idle.js
 // @version		0.0.1_ru (01.07.2018)
 // @author		ensingm2
 // @match		*://steamcommunity.com/saliengame/play
 // @match		*://steamcommunity.com/saliengame/play/
-// @icon        https://store.steampowered.com/favicon.ico
+// @icon		https://store.steampowered.com/favicon.ico
 // @grant		none
 // ==/UserScript==
 
