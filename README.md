@@ -1,6 +1,6 @@
 # Salien Game Idler
 
-![битва с боссом](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler.png) ![обычная битва](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler%202.png)
+![битва с боссом](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler.png) ![обычная битва](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler%202.png) ![25-й уровень](https://github.com/Grey83/saliengame_idler/blob/master/Salien%20Game%20Idler%203.png)
 
 ![Steam store](https://store.steampowered.com/favicon.ico) [Link to Saliens Game](https://steamcommunity.com/saliengame/play)
 
