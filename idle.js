@@ -110,7 +110,7 @@ class BotGUI {
 
 	updateEstimatedTime(secondsLeft) {
 		if (secondsLeft == -1) {
-			document.getElementById('salienbot_esttimlvl').innerText = "Max level reached";
+			document.getElementById('salienbot_esttimlvl').innerText = "Получен максимальный уровень";
 			return;
 		}
 		let date = new Date(null);
@@ -250,7 +250,7 @@ function checkUnlockGameState() {
 	var maxWait = 300; // Time (in seconds) to wait until we try to unlock the script
 	if (timeDiff < maxWait)
 		return;
-	gui.updateTask("Detected the game script is locked. Trying to unlock it.");
+	gui.updateTask("Обнаружена блокировка скрипта. Пытаемся его раблокировать.");
 	if (auto_switch_planet.active == true) {
 		CheckSwitchBetterPlanet(true);
 	} else {
@@ -374,7 +374,7 @@ var INJECT_report_boss_damage = function() {
 	function success(results) {
 		boss_options.last_report = new Date().getTime();
 		if (results.response.waiting_for_players == true) {
-			gui.updateTask("Waiting for players...");
+			gui.updateTask("Ожидаем игроков...");
 		} else {
 			results.response.boss_status.boss_players.forEach( function(player) {
 				if (player.accountid == account_id) {
@@ -382,12 +382,12 @@ var INJECT_report_boss_damage = function() {
 						boss_options.last_heal = player.time_last_heal;
 
 					if (player.hp > 0) {
-						gui.updateTask("In boss battle. Boss HP left: " + results.response.boss_status.boss_hp + ". EXP earned: " + player.xp_earned + ". HP left: " + player.hp);
+						gui.updateTask("Битва с боссом. ХП босса: " + results.response.boss_status.boss_hp + ". Опыт: " + player.xp_earned + ". ХП: " + player.hp);
 						if (results.response.boss_status.boss_hp == 0 || results.response.game_over) {
 							end_game();
 						}
 					} else {
-						gui.updateTask("You died, ending boss fight. Boss HP left: " + results.response.boss_status.boss_hp + ". EXP earned: " + player.xp_earned);
+						gui.updateTask("Вы погибли, битва с боссом завершается. ХП босса: " + results.response.boss_status.boss_hp + ". Опыт: " + player.xp_earned);
 						end_game();
 					}
 
@@ -413,7 +413,7 @@ var INJECT_report_boss_damage = function() {
 			boss_options.error_count++;
 	}
 	function end_game() {
-		gui.updateTask("Boss battle finished. Searching a new planet / zone.");
+		gui.updateTask("Битва с боссом завершена. Ищем новую планету / зону.");
 		clearInterval(boss_options.report_interval);
 		boss_options.report_interval = undefined;
 		boss_options.last_heal = undefined;
