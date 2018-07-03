@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name		Ensingm2 Salien Game Idler
 // @namespace	https://github.com/ensingm2/saliengame_idler
-// @version		0.0.1_ru (02.07.2018)
+// @version		0.0.1_ru (03.07.2018)
 // @author		ensingm2
 // @match		*://steamcommunity.com/saliengame/play
 // @match		*://steamcommunity.com/saliengame/play/
@@ -390,6 +390,15 @@ var INJECT_report_boss_damage = function() {
 						gui.updateTask("You died, ending boss fight. Boss HP left: " + results.response.boss_status.boss_hp + ". EXP earned: " + player.xp_earned);
 						end_game();
 					}
+
+					// Update GUI
+					gui.updateLevel(player.new_level);
+					var total_exp = parseInt(player.score_on_join) + player.xp_earned;
+					if (gPlayerInfo.level == 25)
+						gui.updateExp(total_exp + " / ∞");
+					else
+						gui.updateExp(total_exp + " / " + player.next_level_score);
+					gui.updateEstimatedTime(calculateTimeToNextLevel());
 				}
 			});
 			gui.progressbar.SetValue((results.response.boss_status.boss_max_hp - results.response.boss_status.boss_hp) / results.response.boss_status.boss_max_hp);
